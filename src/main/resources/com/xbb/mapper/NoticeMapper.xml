@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    绑定Mapper接口   -->
+<mapper namespace="com.xbb.mapper.NoticeMapper">
+
+    <select id="queryNotices" resultType="com.xbb.pojo.Notice">
+        select id,title,content from notice where user_id = #{userId}
+    </select>
+
+    <insert id="noticeAdd">
+        insert into notice(`user_id`,`title`,`content`)
+        values(#{user_id},#{title},#{content})
+    </insert>
+
+    <delete id="noticeRemove">
+        delete from notice where id = #{noticeId}
+    </delete>
+
+    <update id="noticeSave">
+        update notice
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null and title != ''">title=#{title},</if>
+            <if test="content != null and content != ''">content=#{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="findByIdNotice" resultType="com.xbb.pojo.Notice">
+        select title,content from notice where id = #{noticeId}
+    </select>
+</mapper>

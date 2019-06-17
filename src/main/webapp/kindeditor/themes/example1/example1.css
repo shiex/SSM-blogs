@@ -1,0 +1,25 @@
+.ke-container-example1 {
+    display: block;
+    border: 1px solid #CCC;
+    background-color: #FFF;
+    overflow: hidden;
+}
+.ke-container-example1 .ke-toolbar {
+    border-bottom: 1px solid #CCC;
+    background-color: #e8e8e8;
+    padding: 2px 5px;
+    overflow: hidden;
+}
+.ke-container-example1 .ke-statusbar:hover{
+    cursor: auto;
+}
+
+.ke-dialog-body .ke-dialog-row{
+    position: relative;
+    height: 20px;
+}
+.ke-dialog-body .ke-code-type{
+    position: absolute;
+    right: 10px;
+}
+

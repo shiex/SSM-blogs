@@ -1,0 +1,9 @@
+.load-content .user-data{
+    position: relative;
+    left: 210px;
+    height: 530px;
+    background-color: #ffffff;
+    width: 1000px;
+    top: 60px;
+    padding-top: 50px;
+}

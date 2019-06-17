@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/afquery.js"></script>
+    <style>
+        body{
+            margin: 0px;
+        }
+        .login-bg{
+            background: url(/static/img/qwe.jpg) no-repeat;
+            background-size: cover;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            position: absolute;
+        }
+
+        .login {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            line-height: 50px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0);
+        }
+        #setting{
+            margin: 150px auto;
+            width: 300px;
+            height: 262px;
+            background-color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 20px 35px ;
+            z-index: 1000;
+        }
+        #setting #login{
+            width: 100%;
+            height: 32px;
+            color: #eae9f1;
+            font-size: 20px;
+            text-align: center;
+        }
+        #setting #input{
+            width: 100%;
+            height: 50px;
+            border: 1px solid #E7E7EB;
+            background-color: #FFFFFF;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        #setting #input img{
+            width: 30px;
+            height: 30px;
+            position: relative;
+            top: 10px;
+            margin-left: 10px;
+            margin-right: 4px;
+        }
+        #setting #input input{
+            width: 250px;
+            height: 40px;
+            border: 0px;
+            outline: none;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        #setting button{
+            margin-top: 10px;
+            width: 100px;
+            padding: 8px;
+            background-color: #1C6C47;
+            border: 1px solid #1C6C47;
+            color: #FFFFFF;
+            border-radius: 4px;
+            cursor: pointer;
+            background: rgba(28, 108, 71, 0.7);
+        }
+    </style>
+</head>
+<body>
+<div class="login-bg">
+    <div class="login">
+        <div id="setting">
+            <div id="login"> 用户注册 </div>
+            <div id="input" style="border-bottom: 0px; margin-top: 10px;">
+                <img src="/static/img/user.png" />
+                <input placeholder="用户名" class="username"/>
+            </div>
+            <div id="input">
+                <img src="/static/img/passwrod.png" />
+                <input placeholder="密码" type="password" class="password"/>
+            </div>
+            <div id="input">
+                <img src="/static/img/passwrod.png" />
+                <input placeholder="再次输入密码" class="password2"/>
+            </div>
+            <div id="login" style="margin-top: 10px;">
+                <button onclick="M.register()"> 注册 </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    var M = {};
+    M.register = function () {
+        var req = {};
+        req.username = $('.username').val();
+        req.password = $('.password').val();
+        req.password2 = $('.password2').val();
+        if(req.username.length < 0 || req.username == ''){
+            alert('请输入用户名');
+            return;
+        }
+        if(req.password.length < 0 || req.password == '' ||
+            req.password2.length < 0 || req.password2 == ''){
+            alert('请输入密码');
+            return;
+        }
+        if(req.password != req.password2){
+            alert('两次密码输入不一致!');
+            return;
+        }
+        Af.rest("/register/verify", req, function (data) {
+            alert('注册成功!');
+            location.href = '/login.html';
+        });
+    }
+</script>
+</html>

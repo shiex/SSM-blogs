@@ -1,0 +1,61 @@
+.load-content .user-follow{
+    margin-left: 240px;
+    height: 50px;
+    background-color: #ffffff;
+    margin-top: 10px;
+    width: 1050px;
+    word-break:break-all;
+    padding: 20px;
+}
+.user-follow .follow{
+    height: 50px;
+    width: 450px;
+    padding: 10px 25px;
+    padding-right: 0px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    margin-left: 30px;
+    border: 1px solid #c1a9a9;
+    border-radius: 20px;
+    box-shadow: 1px 1px 1px 1px #e4d6d6;
+}
+.follow .follow-img{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+}
+.follow .follow-img img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.follow .follow-name{
+    font-size: 18px;
+    font-family: "楷体";
+    position: absolute;
+    left: 80px;
+    top: 25px;
+    cursor: pointer;
+}
+.follow .follow-cancel{
+    position: absolute;
+    right: 15px;
+    top: 25px;
+}
+.follow button{
+    background-color: #ffffff;
+    padding: 2px 4px;
+    border: 1px solid blueviolet;
+    border-radius: 4px;
+    color: #888888;
+    cursor: pointer;
+    width: 80px;
+}
+.follow button:hover{
+    background-color: bisque;
+    padding: 2px 4px;
+    border: 1px solid #4476A7;
+    border-radius: 4px;
+}
