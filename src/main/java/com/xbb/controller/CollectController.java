@@ -5,6 +5,7 @@ import com.xbb.pojo.Collect;
 import com.xbb.pojo.User;
 import com.xbb.service.CollectService;
 import com.xbb.utils.RestMap;
+import com.xbb.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,11 @@ public class CollectController {
 
     @Autowired private CollectService collectService;
 
+    /**
+     * @description: 获取收藏列表
+     * @param userId
+     * @return: java.util.Map
+     */
     @RequestMapping("/all.do")
     @ResponseBody
     public Map queryCollectList(@RequestBody String userId){
@@ -42,11 +48,17 @@ public class CollectController {
         return map;
     }
 
+    /**
+     * @description: 添加收藏
+     * @param collect
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/add.do")
     @ResponseBody
     public Map collectAdd(@RequestBody Collect collect, HttpSession session){
         Map <String, Object> map = RestMap.getRestMap();
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         if(collect.getIsCollect() == 0){
             collectService.collectAdd(user.getId(), collect.getArticle_id());
         }else {
@@ -55,11 +67,17 @@ public class CollectController {
         return map;
     }
 
+    /**
+     * @description: 删除收藏
+     * @param articleId
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/remove.do")
     @ResponseBody
     public Map collectRemove(@RequestBody String articleId, HttpSession session){
         Map <String, Object> map = RestMap.getRestMap();
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         collectService.collectRemove(user.getId(), Integer.valueOf(articleId));
         return map;
     }

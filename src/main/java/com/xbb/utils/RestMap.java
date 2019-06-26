@@ -12,6 +12,11 @@ import java.util.Map;
  */
 public class RestMap {
 
+    /**
+     * @description: 默认应答成功
+     * @param
+     * @return: java.util.Map
+     */
     public static Map getRestMap()
     {
         Map <String, Object> map = new HashMap<>();

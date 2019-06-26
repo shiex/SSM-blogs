@@ -5,6 +5,7 @@ import com.xbb.pojo.User;
 import com.xbb.service.AttentionService;
 import com.xbb.service.UserService;
 import com.xbb.utils.RestMap;
+import com.xbb.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +25,20 @@ import java.util.Map;
 @RestController
 public class AttentionController {
 
-    @Autowired
-    AttentionService attentionService;
-    @Autowired
-    UserService userService;
-    /*
-        点击关注，如果为已关注状态则进行删除
+    @Autowired AttentionService attentionService;
+    @Autowired UserService userService;
+
+    /**
+     * @description: 点击关注，如果为已关注状态则进行删除
+     * @param attention
+     * @param session
+     * @return: java.util.Map
      */
     @RequestMapping("/follow.add")
     public Map addFollow(@RequestBody Attention attention, HttpSession session)
     {
         Map <String, Object> map = RestMap.getRestMap();
-        User u = (User) session.getAttribute("SESSION_USER");
+        User u = (User) session.getAttribute(StatusCode.SESSION_USER);
         int isFollow = attentionService.findIsFollow(u.getId(),attention.getFollow_id());
         // 0：未关注（新增），1：已关注（删除）
         if(isFollow == 0){
@@ -49,8 +52,10 @@ public class AttentionController {
         return map;
     }
 
-    /*
-        以粉丝角度获取关注列表
+    /**
+     * @description: 以粉丝角度获取关注列表
+     * @param userId
+     * @return: java.util.Map
      */
     @RequestMapping("/follow.all")
     public Map queryFollow(@RequestBody String userId)
@@ -61,8 +66,10 @@ public class AttentionController {
         return map;
     }
 
-    /*
-        以被关注角度获取粉丝列表
+    /**
+     * @description: 以被关注角度获取粉丝列表
+     * @param userId
+     * @return: java.util.Map
      */
     @RequestMapping("/fans.all")
     public Map queryFans(@RequestBody String userId)

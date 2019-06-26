@@ -16,21 +16,19 @@ import java.io.File;
  * @description: TODO
  * @date 2019\3\17 001715:29
  */
-@WebServlet(urlPatterns = "", loadOnStartup = 3)
+@WebServlet(urlPatterns = "", loadOnStartup = 3) // 随应用启动加载
 public class WebPathInitServlet extends HttpServlet {
 
+    /**
+     * @description: 初始化加载路径
+     * @param config
+     * @return: void
+     */
     @Override
     public void init(ServletConfig config) throws ServletException {
-        StatusCode.CONTEXT_PATH = config.getServletContext().getContextPath() + "/";
-        System.out.println("当前服务部署路径为：" + StatusCode.CONTEXT_PATH);
-
-        // WEB-NIF路径
-        StatusCode.WEB_FILE_ROOT = config.getServletContext().getRealPath("/");
-        System.out.println("当前项目路径为：" + StatusCode.WEB_FILE_ROOT);
-
-        //  初始化Configuration
-        File appDir = new File(StatusCode.WEB_FILE_ROOT);
-        GenerateHtml.i.init(appDir);
+        StatusCode.CONTEXT_PATH = config.getServletContext().getContextPath() + "/"; // contextPath
+        StatusCode.WEB_FILE_ROOT = config.getServletContext().getRealPath("/"); // webFileRoot
+        GenerateHtml.i.init(new File(StatusCode.WEB_FILE_ROOT)); //  初始化Configuration
     }
 
 }

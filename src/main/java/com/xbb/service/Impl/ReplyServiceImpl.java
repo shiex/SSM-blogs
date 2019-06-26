@@ -21,11 +21,21 @@ public class ReplyServiceImpl implements ReplyService {
     @Autowired
     ReplyMapper replyMapper;
 
+    /**
+     * @description: 根据评论ID查询回复
+     * @param reply
+     * @return: void
+     */
     @Override
     public void add(Reply reply) {
         replyMapper.add(reply);
     }
 
+    /**
+     * @description: 添加回复
+     * @param comment_id
+     * @return: java.util.List<com.xbb.pojo.Reply>
+     */
     @Override
     public List<Reply> findReplyList(int comment_id) {
         return replyMapper.findReplyList(comment_id);

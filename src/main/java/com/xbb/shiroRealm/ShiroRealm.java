@@ -2,6 +2,7 @@ package com.xbb.shiroRealm;
 
 import com.xbb.pojo.User;
 import com.xbb.service.UserService;
+import com.xbb.utils.StatusCode;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -34,9 +35,10 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     UserService userService;
 
-    /*
-        执行登录：currentUser.login(token);传递token
-        AuthenticationToken token：接收token
+    /**
+     * @description: shiro认证
+     * @param token 执行登录：currentUser.login(token);传递token
+     * @return: org.apache.shiro.authc.AuthenticationInfo
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
@@ -49,7 +51,7 @@ public class ShiroRealm extends AuthorizingRealm {
             throw  new UnknownAccountException("用户不存在!");
         }
         Session session= SecurityUtils.getSubject().getSession();
-        session.setAttribute("SESSION_USER", user);
+        session.setAttribute(StatusCode.SESSION_USER, user);
         // 计算盐值
         ByteSource byteSource = ByteSource.Util.bytes(username);
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
@@ -57,7 +59,11 @@ public class ShiroRealm extends AuthorizingRealm {
         return info;
     }
 
-    // 授权会被 shiro 回调的方法
+    /**
+     * @description: shiro授权回调
+     * @param principals
+     * @return: org.apache.shiro.authz.AuthorizationInfo
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(
             PrincipalCollection principals) {

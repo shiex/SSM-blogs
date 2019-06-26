@@ -1,5 +1,7 @@
 package com.xbb.utils;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -14,10 +16,14 @@ import java.util.HashMap;
  */
 public class AxWebUtils {
 
-    /*
-        解析Restful风格所提交的数据
+    /**
+     * @description: 解析Restful风格所提交的数据
+     * @param in 数据包
+     * @param charset 字符集
+     * @param maxSize 上传限制
+     * @return: java.lang.String
      */
-    public static String getString(InputStream in, String charset, int maxSize) throws Exception
+    public static String queryString(InputStream in, String charset, int maxSize) throws Exception
     {
         ByteArrayOutputStream arrayOut = new ByteArrayOutputStream(1024 * 16);
         byte [] data = new byte[1024];
@@ -39,14 +45,17 @@ public class AxWebUtils {
                 continue;  // 数据未完
             }
             arrayOut.write(data, 0, n); // 存入缓冲区
-            if(arrayOut.size() > maxSize) // 上传限制
+            if(arrayOut.size() > maxSize)
                 break;
         }
         return arrayOut.toString(charset);
     }
 
-    /*
-        解析GET请求附带参数
+    /**
+     * @description: 解析GET请求附带参数
+     * @param query 前端所发送参数
+     * @param charset 指定字符集
+     * @return: java.util.HashMap<java.lang.String,java.lang.Object>
      */
     public static HashMap<String, Object> queryParams(String query,String  charset)
     {
@@ -70,17 +79,17 @@ public class AxWebUtils {
         return params;
     }
 
-    /*
-        JsxData()：返回json/js格式数据
-        data：必须为json格式数据
-        dataName：前端JS文件对象名称
-        isJsonOrJs：格式为json 还是 js（默认js）
+    /**
+     * @description: 返回js文件||json格式数据
+     * @param data json格式数据
+     * @param dataName var对象名称
+     * @param isJsonOrJs 默认返回js文件数据
+     * @return: java.lang.String
      */
-    public static String JsxData(Object data, String dataName, Boolean isJsonOrJs)
-    {
+    public static String JsxData(JSONObject data, String dataName, Boolean isJsonOrJs) {
         String strResp = null;
-
         Boolean isJSONFormat = false;
+
         if(isJsonOrJs != null) isJSONFormat = isJsonOrJs;
 
         if(isJSONFormat)

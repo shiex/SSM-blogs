@@ -4,6 +4,7 @@ import com.xbb.pojo.Comment;
 import com.xbb.pojo.User;
 import com.xbb.service.CommentService;
 import com.xbb.utils.RestMap;
+import com.xbb.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +28,17 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    /**
+     * @description: 添加评论
+     * @param comment
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/comment.add")
     @ResponseBody
     public Map add(@RequestBody Comment comment, HttpSession session) {
-
         // 插入数据库
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         comment.setUser_id(user.getId());
         comment.setUsername(user.getUsername());
         comment.setComment_time(new Date());
@@ -41,6 +47,7 @@ public class CommentController {
         Map<String , Object> map = RestMap.getRestMap();
         return map;
     }
+
     //  添加评论重新生成静态页面
     /*@RequestMapping("/comment.add")
     @ResponseBody

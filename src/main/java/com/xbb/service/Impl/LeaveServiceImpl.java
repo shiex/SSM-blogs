@@ -21,16 +21,31 @@ public class LeaveServiceImpl implements LeaveService {
     @Autowired
     private LeaveMapper leaveMapper;
 
+    /**
+     * @description: 添加留言
+     * @param leave
+     * @return: void
+     */
     @Override
     public void add(Leave leave) {
         leaveMapper.add(leave);
     }
 
+    /**
+     * @description: 查询留言列表
+     * @param id
+     * @return: java.util.List<com.xbb.pojo.Leave>
+     */
     @Override
     public List<Leave> queryLeaveList(Integer id) {
         return leaveMapper.queryLeaveList(id);
     }
 
+    /**
+     * @description: 根据留言ID查询留言
+     * @param id
+     * @return: com.xbb.pojo.Leave
+     */
     @Override
     public Leave getLeaveById(Integer id) {
         return leaveMapper.getLeaveById(id);

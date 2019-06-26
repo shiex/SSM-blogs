@@ -13,8 +13,5 @@ import java.util.List;
  */
 public interface ProgramaMapper {
 
-    /*
-        加载所有栏目
-     */
     List<Programa> queryProgramaList();
 }

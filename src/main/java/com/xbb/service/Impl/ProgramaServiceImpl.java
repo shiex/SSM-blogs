@@ -22,6 +22,11 @@ public class ProgramaServiceImpl implements ProgramaService {
     @Autowired
     private ProgramaMapper programaMapper;
 
+    /**
+     * @description: 加载所有栏目
+     * @param
+     * @return: java.util.List<com.xbb.pojo.Programa>
+     */
     @Override
     public List<Programa> queryProgramaList() {
         return programaMapper.queryProgramaList();

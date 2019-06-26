@@ -64,4 +64,9 @@ public class StatusCode {
      */
     public final static String USER_IMGS_ROOT = "static/userImgs/";
 
+    /*
+        Session
+     */
+    public final static String SESSION_USER = "SESSION_USER";
+
 }

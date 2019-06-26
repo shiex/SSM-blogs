@@ -4,6 +4,7 @@ import com.xbb.pojo.Notice;
 import com.xbb.pojo.User;
 import com.xbb.service.NoticeService;
 import com.xbb.utils.RestMap;
+import com.xbb.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,11 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
-    // 初始化加载公告
+    /**
+     * @description: 初始化加载公告
+     * @param noticeId
+     * @return: java.util.Map
+     */
     @RequestMapping("/notice/list.all")
     public Map loadNotice(@RequestBody String noticeId){
         Map<String , Object> map = RestMap.getRestMap();
@@ -36,13 +41,18 @@ public class NoticeController {
         return map;
     }
 
-    // 添加与编辑公告
+    /**
+     * @description: 添加与编辑公告
+     * @param notice
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/notice/save.do")
     public Map noticeSave(@RequestBody Notice notice, HttpSession session){
         Map<String , Object> map = RestMap.getRestMap();
         // id：0为添加，反之为编辑
         if(notice.getId() == 0){
-            User user = (User) session.getAttribute("SESSION_USER");
+            User user = (User) session.getAttribute(StatusCode.SESSION_USER);
             notice.setUser_id(user.getId());
             noticeService.noticeAdd(notice);
         }else {
@@ -51,7 +61,11 @@ public class NoticeController {
         return map;
     }
 
-    // 删除公告
+    /**
+     * @description: 删除公告
+     * @param noticeId
+     * @return: java.util.Map
+     */
     @RequestMapping("/notice/remove.do")
     public Map noticeRemove(@RequestBody String  noticeId){
         Map<String , Object> map = RestMap.getRestMap();
@@ -59,7 +73,11 @@ public class NoticeController {
         return map;
     }
 
-    // 查看公告
+    /**
+     * @description: 查看公告
+     * @param noticeId
+     * @return: java.util.Map
+     */
     @RequestMapping("/notice/read.do")
     public Map readNotice(@RequestBody String noticeId){
         Map<String , Object> map = RestMap.getRestMap();

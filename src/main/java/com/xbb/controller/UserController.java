@@ -61,6 +61,12 @@ public class UserController {
         return StatusCode.CONTEXT_PATH;
     }
 
+    /**
+     * @description: 用户登录
+     * @param u
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/login/verify")
     @ResponseBody
     public Map login(@RequestBody User u, HttpSession session){
@@ -83,6 +89,11 @@ public class UserController {
         return map;
     }
 
+    /**
+     * @description: 注册用户
+     * @param u
+     * @return: java.util.Map<java.lang.String,java.lang.Object>
+     */
     @RequestMapping("/register/verify")
     @ResponseBody
     public Map<String, Object> verify(@RequestBody User u)
@@ -118,7 +129,11 @@ public class UserController {
         return map;
     }
 
-    // 退出登录
+    /**
+     * @description: 退出登录
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("login.out")
     @ResponseBody
     public Map loginOut(HttpSession session){
@@ -127,7 +142,12 @@ public class UserController {
         return map;
     }
 
-    // 返回JS文件，包含当前用户信息
+    /**
+     * @description: 返回JS文件，包含当前用户信息
+     * @param req
+     * @param resp
+     * @return: void
+     */
     @RequestMapping(value = "user.jsx", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
     public void JsxUser(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
@@ -150,7 +170,12 @@ public class UserController {
         out.write(strResp);
     }
 
-    // 获取用户信息以及所发布的所有博客
+    /**
+     * @description: 获取用户信息以及所发布的所有博客
+     * @param userId
+     * @param model
+     * @return: java.lang.String
+     */
     @RequestMapping("/userPage/{userId}.html")
     public String personal(@PathVariable("userId") int userId, Model model)
     {
@@ -168,7 +193,12 @@ public class UserController {
             }
         }
         if(articles.size() > 0){
-            ArticleDateUtils.setDayTime(articles);
+            // 计算出距离发布到现在的时间
+            long end = new Date().getTime();
+            for(Article article : articles){
+                String timeLog = AxDateUtils.timeInterval(article.getIssue_time().getTime(), end);
+                article.setPastTime(timeLog);
+            }
             model.addAttribute("articles", articles);
         }
         if(notices.size() > 0){
@@ -183,7 +213,11 @@ public class UserController {
         return "user_index";
     }
 
-    // 修改个人资料
+    /**
+     * @description: 修改个人资料
+     * @param user
+     * @return: java.util.Map
+     */
     @RequestMapping("/user/updata")
     @ResponseBody
     public Map upData(@RequestBody User user){
@@ -200,7 +234,11 @@ public class UserController {
         return map;
     }
 
-    // 取消修改资料
+    /**
+     * @description: 取消修改资料
+     * @param imgUrl
+     * @return: java.util.Map
+     */
     @RequestMapping("/updata.call")
     @ResponseBody
     public Map updataCall(@RequestBody String imgUrl){
@@ -214,7 +252,13 @@ public class UserController {
         return map;
     }
 
-    // 用户上传照片，包含头像，主页图，资料图
+    /**
+     * @description: 用户上传照片，包含头像，主页图，资料图
+     * @param multipartFile
+     * @param status 图片类型状态码
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping(value = "/user/uploadPhoto/{status}",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map uploadPhoto(@RequestParam("file") MultipartFile multipartFile,
@@ -222,12 +266,9 @@ public class UserController {
         Map<String , Object> map = RestMap.getRestMap();
         if(multipartFile != null)
         {
-            // 原始文件名
-            String realName = multipartFile.getOriginalFilename();
-            // 文件名后缀
-            String suffix = AfFileUploadUtils.fileSuffix(realName);
-            // 生成保证不重复的临时文件名
-            String tmpFileName = AfFileUploadUtils.createTmpFileName(suffix);
+            String realName = multipartFile.getOriginalFilename(); // 原始文件名
+            String suffix = AxFileUploadUtils.fileSuffix(realName); // 文件名后缀
+            String tmpFileName = AxFileUploadUtils.createTmpFileName(suffix); // 生成保证不重复的临时文件名
             // 判断文件是否为图片类型格式
             if(!StatusCode.IMG_TYPE.contains(suffix)){
                 map.put("error", StatusCode.FAILER);

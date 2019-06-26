@@ -15,11 +15,16 @@ import java.io.*;
  */
 public class GenerateHtml {
 
-    public static GenerateHtml i = new GenerateHtml();  // 全局实例
+    public static GenerateHtml i = new GenerateHtml(); // 单例
 
     protected Configuration frmkConfig;
     protected File appDir;
 
+    /**
+     * @description: 初始化frmkConfig
+     * @param appDir 父目录
+     * @return: void
+     */
     public synchronized void init(File appDir)
     {
         if(this.appDir != null) return;  //只加载一次
@@ -35,10 +40,12 @@ public class GenerateHtml {
         }
     }
 
-    /*
-        template：模板文件路径
-        model：数据源
-        htmlPath：页面存储位置
+    /**
+     * @description: 生成静态页面
+     * @param template 模板文件路径
+     * @param model 数据源
+     * @param htmlPath 页面存储位置
+     * @return: java.lang.String
      */
     public String GenHtml(String template, Object model, String htmlPath)throws Exception
     {

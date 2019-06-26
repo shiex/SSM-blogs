@@ -13,14 +13,8 @@ import java.util.List;
  */
 public interface ReplyMapper {
 
-    /*
-        根据评论ID查询回复
-     */
     List<Reply> findReplyList(int comment_id);
 
-    /*
-        添加回复
-     */
     void add(Reply reply);
 
 }

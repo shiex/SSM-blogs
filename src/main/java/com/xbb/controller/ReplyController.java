@@ -6,6 +6,7 @@ import com.xbb.pojo.User;
 import com.xbb.service.CommentService;
 import com.xbb.service.ReplyService;
 import com.xbb.utils.RestMap;
+import com.xbb.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,7 @@ public class ReplyController {
     @ResponseBody
     public Map<String, Object> add(@RequestBody Reply reply, HttpSession session) {
         Map<String, Object> restMap = RestMap.getRestMap();
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         reply.setUser_id(user.getId());
         reply.setReply_time(new Date());
         replyService.add(reply);

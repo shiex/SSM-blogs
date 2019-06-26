@@ -17,8 +17,11 @@ import javax.servlet.ServletResponse;
  */
 public class ShiroLogoutFilter extends LogoutFilter {
 
-    /*
-        自定义退出跳转页面
+    /**
+     * @description: 自定义退出跳转页面
+     * @param request
+     * @param response
+     * @return: boolean
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {

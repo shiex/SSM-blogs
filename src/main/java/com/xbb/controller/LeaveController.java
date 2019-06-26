@@ -41,6 +41,11 @@ public class LeaveController {
         return "ax_leave";
     }
 
+    /**
+     * @description: 根据评论ID加载回复
+     * @param id
+     * @return: java.util.Map
+     */
     @RequestMapping("/leave.load")
     @ResponseBody
     public Map queryLeaveList(@RequestBody String id){
@@ -56,6 +61,12 @@ public class LeaveController {
         return map;
     }
 
+    /**
+     * @description: 添加回复
+     * @param leave
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/leave.add")
     @ResponseBody
     public Map add(@RequestBody Leave leave, HttpSession session){
@@ -63,7 +74,7 @@ public class LeaveController {
         leave.setLeave_time(new Date());
         leave.setUser_id(1);
         // 若是用户留言则另做处理
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         if(user != null){
             leave.setUser_id(user.getId());
         }

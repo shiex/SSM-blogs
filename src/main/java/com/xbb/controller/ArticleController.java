@@ -13,11 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * @author Administrator
@@ -30,9 +28,6 @@ import java.util.Random;
 @Controller
 @RequestMapping("/article")
 public class ArticleController{
-
-    public static Random random = new Random();
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     @Autowired private ProgramaService programaService;
     @Autowired private ArticleService articleService;
@@ -49,22 +44,28 @@ public class ArticleController{
         return StatusCode.CONTEXT_PATH;
     }
 
+    /**
+     * @description: 根据分类ID加载对应博客列表
+     * @param id
+     * @param model
+     * @return: java.lang.String
+     */
     @RequestMapping("/list/{id}")
     public String queryByArticleProgramaId(@PathVariable("id")int id, Model model)
     {
         List <Programa> list_programa = programaService.queryProgramaList();    // 分类列表
         List <Article> list_article = articleService.queryArticleList(id);  // 博客列表
         List <Article> articles = articleService.queryArticleReferral(id);    // 今日推荐
-        if(articles.size() > 0){
-            for(Article article : articles){
-                if(article.getTitle().length() > 15){
-                    int n = random.nextInt(15) + 7;
-                    String title = article.getTitle().substring(0,n);
-                    article.setTitle(title);
-                }
-            }
+
+        ArticleUtlis.setTitle(articles);  // 今日推荐标题字数不得超过22
+
+        // 计算出距离发布到现在的时间
+        long end = new Date().getTime();
+        for(Article article : list_article){
+            String timeLog = AxDateUtils.timeInterval(article.getIssue_time().getTime(), end);
+            article.setPastTime(timeLog);
         }
-        ArticleDateUtils.setDayTime(list_article);
+
         model.addAttribute("list_programa",list_programa);
         model.addAttribute("list_article", list_article);
         model.addAttribute("articles",articles);
@@ -81,6 +82,12 @@ public class ArticleController{
         return "article_add";
     }
 
+    /**
+     * @description: 编辑博客
+     * @param id
+     * @param model
+     * @return: java.lang.String
+     */
     @RequestMapping("/edit/{id}.html")
     public String edit(@PathVariable("id")int id, Model model)
     {
@@ -89,10 +96,15 @@ public class ArticleController{
         return "article_add";
     }
 
+    /**
+     * @description: 文件上传
+     * @param multipartFile
+     * @param session
+     * @return: java.util.Map<java.lang.String,java.lang.Object>
+     */
     @RequestMapping(value = "/uploadFile",produces="application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String, Object> fileUpload(@RequestParam("file") MultipartFile multipartFile,
-                                          HttpSession session)
+    public Map<String, Object> fileUpload(@RequestParam("file") MultipartFile multipartFile, HttpSession session)
     {
         Map<String, Object> map = RestMap.getRestMap();
         if(multipartFile != null)
@@ -100,7 +112,7 @@ public class ArticleController{
             // 原始文件名
             String realName = multipartFile.getOriginalFilename();
             // 文件名后缀
-            String suffix = AfFileUploadUtils.fileSuffix(realName);
+            String suffix = AxFileUploadUtils.fileSuffix(realName);
 
             // 判断文件是否为图片类型格式
             if(!StatusCode.IMG_TYPE.contains(suffix)){
@@ -114,15 +126,15 @@ public class ArticleController{
                 return map;
             }
             // 生成保证不重复的临时文件名
-            String tmpFileName = AfFileUploadUtils.createTmpFileName(suffix);
+            String tmpFileName = AxFileUploadUtils.createTmpFileName(suffix);
             // 存储位置父目录
-            User user = (User) session.getAttribute("SESSION_USER");
+            User user = (User) session.getAttribute(StatusCode.SESSION_USER);
             String imgsFileUrl = userService.findByIdImgsFile(user.getId()); // 图片存储父目录路径
             // 当图片数量大于1700时则新建文件夹
             File imgsFileRoot = new File(StatusCode.WEB_FILE_ROOT + imgsFileUrl);
             File[] files = imgsFileRoot.listFiles();
             if(files.length > 1700){
-                String date = sdf.format(new Date());
+                String date = AxDateUtils.yFormat(new Date());
                 imgsFileUrl = StatusCode.USER_IMGS_ROOT + date + "/" + + user.getId();
                 imgsFileRoot = new File(StatusCode.WEB_FILE_ROOT + imgsFileUrl);
                 imgsFileRoot.mkdirs();
@@ -144,7 +156,12 @@ public class ArticleController{
         return map;
     }
 
-    // 添加博客
+    /**
+     * @description: 添加博客
+     * @param article
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/add")
     @ResponseBody
     public Map add(@RequestBody Article article, HttpSession session){
@@ -157,7 +174,7 @@ public class ArticleController{
         KIndEditorUtils.removeImg(upload, iuuse, StatusCode.WEB_FILE_ROOT);
 
         // 截取部分文本作为博客摘要内容
-        int n = random.nextInt(28) + 128;
+        int n = ArticleUtlis.random.nextInt(28) + 128;
         String synopsis = KIndEditorUtils.getText(article.getContent(),n) + "...";
 
         // 修改博客
@@ -168,33 +185,27 @@ public class ArticleController{
             return map;
         }
         // 插入数据库
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         article.setUser_id(user.getId());
         article.setSynopsis(synopsis);
         article.setIssue_time(new Date());
         article.setRead_count(0);
         articleService.add(article);
         userService.originalCountPlus(user.getId()); // 原创数量加1
-        // redis：原创数量累计+1
-        /*Map<String, Object> userMap = null;
-        String userId = "userId_" + String.valueOf(user.getId());
-        if(!redisTemplate.hasKey(userId))
-        {
-            userMap = new HashMap<>();
-            userMap.put("original_count", user.getOriginal_count());
-            userMap.put("fans", user.getFans());
-            redisTemplate.opsForHash().putAll(userId, userMap);
-            redisTemplate.expire(userId, 2, TimeUnit.HOURS);
-        }
-        redisTemplate.opsForHash().increment(userId, "original_count", 1);*/
+
         map.put("data", "article/read/" + article.getId() + ".html");
         return map;
     }
 
-    // 点击阅读博客
+    /**
+     * @description: 点击阅读博客
+     * @param id
+     * @param model
+     * @param session
+     * @return: java.lang.String
+     */
     @RequestMapping("/read/{id}.html")
     public String read(@PathVariable("id") int id, Model model, HttpSession session){
-
         articleService.readCountPlus(id); // 阅读数加1
         Article article = articleService.queryArticleUser(id); // 当前博客数据
         List<Comment> list_comment = commentService.commentList(id);    // 评论
@@ -204,7 +215,7 @@ public class ArticleController{
         }else {
             model.addAttribute("articles", null);
         }
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         // 将用户是否存在点赞信息挂靠在评论的status
         if(list_comment.size() > 0){
             if(user != null){
@@ -240,7 +251,11 @@ public class ArticleController{
         return "article_read";
     }
 
-    // 用户个人页面初始化加载博客
+    /**
+     * @description: 用户个人页面初始化加载博客
+     * @param userId
+     * @return: java.util.Map
+     */
     @RequestMapping("/init")
     @ResponseBody
     public Map articleInit(@RequestBody String userId){
@@ -255,7 +270,12 @@ public class ArticleController{
         return map;
     }
 
-    // 删除博客
+    /**
+     * @description: 删除博客
+     * @param articleId
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/remove.do")
     @ResponseBody
     public Map remove(@RequestBody String articleId, HttpSession session){
@@ -263,14 +283,18 @@ public class ArticleController{
         // 判断是否原创，为原创则数量减1
         Boolean original = articleService.queryIsOriginal(articleId);
         if(original){
-            User user = (User) session.getAttribute("SESSION_USER");
+            User user = (User) session.getAttribute(StatusCode.SESSION_USER);
             userService.originalCountMinus(user.getId());
         }
         articleService.removeById(Integer.valueOf(articleId));
         return map;
     }
 
-    // 修改置顶状态，由前端传递状态数据
+    /**
+     * @description: 修改置顶状态，由前端传递状态数据
+     * @param article
+     * @return: java.util.Map
+     */
     @RequestMapping("/stick")
     @ResponseBody
     public Map stick(@RequestBody Article article){
@@ -279,22 +303,39 @@ public class ArticleController{
         return map;
     }
 
-    // 顶部搜索按钮，在所有博客中进行查询
+    /**
+     * @description: 顶部搜索按钮，在所有博客中进行查询
+     * @param antistop
+     * @param model
+     * @return: java.lang.String
+     */
     @RequestMapping("/find/top/{antistop}")
     public String findArticles(@PathVariable("antistop") String antistop, Model model){
         List<Article> list_article = articleService.findArticles(antistop);
-        ArticleDateUtils.setDayTime(list_article);
+
+        // 计算出距离发布到现在的时间
+        long end = new Date().getTime();
+        for(Article article : list_article){
+            String timeLog = AxDateUtils.timeInterval(article.getIssue_time().getTime(), end);
+            article.setPastTime(timeLog);
+        }
+
         model.addAttribute("list_article", list_article);
         return "article_find";
     }
 
-    // 根据用户ID以及查询条件在用户发布博客中进行查找博客
+    /**
+     * @description: 根据用户ID以及查询条件在用户发布博客中进行查找博客
+     * @param antistop
+     * @param session
+     * @return: java.util.Map
+     */
     @RequestMapping("/find/user")
     @ResponseBody
     public Map findUserArticle(@RequestBody String antistop, HttpSession session){
         antistop = antistop.substring(1,antistop.length()-1);
         Map<String , Object> map = RestMap.getRestMap();
-        User user = (User) session.getAttribute("SESSION_USER");
+        User user = (User) session.getAttribute(StatusCode.SESSION_USER);
         List<Article> articles = articleService.findUserArticles(user.getId(),antistop);
         map.put("data", articles);
         return map;

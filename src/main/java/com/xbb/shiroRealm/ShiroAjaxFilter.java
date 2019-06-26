@@ -20,14 +20,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ShiroAjaxFilter extends AdviceFilter {
 
-    /*
-        ajax请求访问认证未通过时的处理
-      */
+    /**
+     * @description: ajax请求访问认证未通过时的处理
+     * @param request
+     * @param response
+     * @return: boolean
+     */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        User user = (User) req.getSession().getAttribute("SESSION_USER");
+        User user = (User) req.getSession().getAttribute(StatusCode.SESSION_USER);
         if (user == null && !req.getRequestURI().contains("/login.html")) {
             String requestedWith = req.getHeader("X-Requested-With");
             if (requestedWith != null && StringUtils.equals(requestedWith, "XMLHttpRequest")) {
