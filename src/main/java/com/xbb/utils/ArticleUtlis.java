@@ -16,6 +16,11 @@ public class ArticleUtlis {
 
     public static Random random = new Random();
 
+    /**
+     * @description: 标题控制在22字数内
+     * @param articles
+     * @return: void
+     */
     public static void setTitle(List<Article> articles){
         if(articles.size() > 0){
             for(Article article : articles){
