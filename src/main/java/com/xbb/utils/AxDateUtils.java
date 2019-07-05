@@ -20,24 +20,21 @@ public class AxDateUtils<T> {
 
     public static final String SDF_YH = "yyyy-MM-dd HH:mm:ss";
     public static final String SDF_Y = "yyyy-MM-dd";
+    public static final String SDF_Y2 = "yyyy/MM/dd";
     public static final String SDF_H = "HH:mm:ss";
 
-    public static String yhFormat(Date date){
-        return new SimpleDateFormat(SDF_YH).format(date);
+    public static String format(String sdf){
+        return new SimpleDateFormat(sdf).format(new Date());
     }
 
-    public static String yFormat(Date date){
-        return new SimpleDateFormat(SDF_Y).format(date);
-    }
-
-    public static String hFormat(Date date){
-        return new SimpleDateFormat(SDF_H).format(date);
+    public static String format(Date date, String sdf){
+        return new SimpleDateFormat(sdf).format(date);
     }
 
     /**
-     * @description: 计算出发布到目前的时间差
-     * @param start 发布时间
-     * @param end 目前时间
+     * @description: 计算start到end的时差
+     * @param start
+     * @param end
      * @return: java.lang.String
      */
     public static String timeInterval(long start, long end){

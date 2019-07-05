@@ -45,22 +45,21 @@ public class ShiroRealm extends AuthorizingRealm {
             throws AuthenticationException
     {
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-        String username = upToken.getUsername();
-        User user = userService.findByUsername(username);
+        User user = userService.query(0, upToken.getUsername());
         if(user == null){
-            throw  new UnknownAccountException("用户不存在!");
+            throw new UnknownAccountException("用户不存在!");
         }
         Session session= SecurityUtils.getSubject().getSession();
         session.setAttribute(StatusCode.SESSION_USER, user);
         // 计算盐值
-        ByteSource byteSource = ByteSource.Util.bytes(username);
+        ByteSource byteSource = ByteSource.Util.bytes(upToken.getUsername());
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
                 user.getUsername(), user.getPassword(), byteSource, this.getName());
         return info;
     }
 
     /**
-     * @description: shiro授权回调
+     * @description: shiro授权回调，暂缺
      * @param principals
      * @return: org.apache.shiro.authz.AuthorizationInfo
      */

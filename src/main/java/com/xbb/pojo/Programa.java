@@ -1,10 +1,13 @@
 package com.xbb.pojo;
 
+import java.util.List;
+
 public class Programa
 { 
  
 	private Integer id ;
 	private String name ;
+	private List<Article> articleList;
 
 	public void setId(Integer id)
 	{
@@ -21,6 +24,14 @@ public class Programa
 	public String getName()
 	{
 		return this.name;
+	}
+
+	public List<Article> getArticleList() {
+		return articleList;
+	}
+
+	public void setArticleList(List<Article> articleList) {
+		this.articleList = articleList;
 	}
 }
  

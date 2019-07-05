@@ -4,9 +4,9 @@ public class Appluad
 { 
  
 	public Integer id ; 
-	public Integer user_id ; 
-	public Integer comment_id ;
-	public Integer article_id;
+	public Integer userId ;
+	public Integer commentId ;
+	public Integer articleId;
 	public Boolean status ;
 
 	public void setId(Integer id)
@@ -17,22 +17,6 @@ public class Appluad
 	{
 		return this.id;
 	}
-	public void setUser_id(Integer user_id)
-	{
-		this.user_id=user_id;
-	}
-	public Integer getUser_id()
-	{
-		return this.user_id;
-	}
-	public void setComment_id(Integer comment_id)
-	{
-		this.comment_id=comment_id;
-	}
-	public Integer getComment_id()
-	{
-		return this.comment_id;
-	}
 	public void setStatus(Boolean status)
 	{
 		this.status=status;
@@ -42,13 +26,28 @@ public class Appluad
 		return this.status;
 	}
 
-	public Integer getArticle_id() {
-		return article_id;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setArticle_id(Integer article_id) {
-		this.article_id = article_id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
+	public Integer getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(Integer commentId) {
+		this.commentId = commentId;
+	}
+
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
+	}
 }
  

@@ -9,64 +9,34 @@ package com.xbb.utils;
  */
 public class StatusCode {
 
-    /*
-        项目实际部署路径
-     */
-    public static String CONTEXT_PATH;
+    public static String CONTEXT_PATH; // 项目实际部署路径
 
-    /*
-        项目存储路径
-     */
-    public static String WEB_FILE_ROOT;
+    public static String WEB_FILE_ROOT; // 项目存储路径
 
-    /*
-        博客上传资源图片父目录
-     */
-    public final static String ARTICLE_IMG_ROOT = "static/article/img/";
+    public final static int SUCCEED = 0; // 请求成功
 
-    /*
-        用户上传头像父目录
-     */
-    public final static String USER_IMG_ROOT = "static/user/img/";
+    public final static int FAILER = -1; // 请求失败
 
-    /*
-        支持上传的图片类型
-     */
-    public final static String IMG_TYPE = "png,jpeg,jpg,gif,bmp,psd,swf,svg";
+    public final static String ERROR = "error"; // 应答状态码
 
-    /*
-        生成静态文件父目录
-     */
+    public final static String REASON = "reason"; // 应答消息
 
-    public final static String VIEW_ROOT = "/view/";
-    /*
-        模板文件父目录
-     */
-    public final static String TEMPLATE_ROOT = "/view/template/";
+    public final static String IMGS_ROOT = "static/userImgs/"; // 用户图片存储父目录
 
-    /*
-        博客静态页面存储父目录
-     */
-    public final static String ARTICLE_ROOT = "/view/article/";
+    public final static String IMG_TYPE = "png,jpeg,jpg,bmp,psd,swf,svg"; // 支持上传的图片类型
 
-    /*
-        请求成功
-     */
-    public final static int SUCCEED = 0;
+    public static final int IMG_SIZE_MAX = 10 * 1024 * 1024;    // 图片上传限制大小
 
-    /*
-        请求失败
-     */
-    public final static int FAILER = -1;
+    public final static String TEMPLATE_ROOT = "/template/"; // 模板文件父目录
 
-    /*
-        用户图片存储父目录
-     */
-    public final static String USER_IMGS_ROOT = "static/userImgs/";
+    public final static String PAGES_ROOT = "/static/pages/article/"; // 博客静态页面存储父目录
 
-    /*
-        Session
-     */
-    public final static String SESSION_USER = "SESSION_USER";
+    public final static String ARTICLE_READ = "article/read/%d.html"; // 阅读博客url
+
+    public final static String SESSION_USER = "SESSION_USER"; // 用户Session Key
+
+    public static final String MD5 = "MD5";
+
+    public final static String MESSAGE = "message"; // 富文本应答消息
 
 }

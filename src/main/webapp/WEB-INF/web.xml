@@ -84,4 +84,9 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
+
+  <context-param>
+    <param-name>webAppRootKey</param-name>
+    <param-value>webApp.root</param-value>
+  </context-param>
 </web-app>

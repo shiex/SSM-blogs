@@ -10,8 +10,8 @@ package com.xbb.pojo;
 public class Collect {
 
     public Integer id;
-    public Integer user_id;
-    public Integer article_id;
+    public Integer userId;
+    public Integer articleId;
     public Integer isCollect; // 判断是否收藏
 
     public Integer getId() {
@@ -22,27 +22,27 @@ public class Collect {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
-    }
-
-    public Integer getArticle_id() {
-        return article_id;
-    }
-
-    public void setArticle_id(Integer article_id) {
-        this.article_id = article_id;
-    }
-
     public Integer getIsCollect() {
         return isCollect;
     }
 
     public void setIsCollect(Integer isCollect) {
         this.isCollect = isCollect;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
 }

@@ -4,8 +4,8 @@ public class Attention
 { 
  
 	public Integer id ;
-	public Integer follow_id ;
-	public Integer fans_id ;
+	public Integer followId ;
+	public Integer fansId ;
 
 	public Integer getId() {
 		return id;
@@ -15,21 +15,22 @@ public class Attention
 		this.id = id;
 	}
 
-	public Integer getFollow_id() {
-		return follow_id;
+	public Integer getFollowId() {
+		return followId;
 	}
 
-	public void setFollow_id(Integer follow_id) {
-		this.follow_id = follow_id;
+	public void setFollowId(Integer followId) {
+		this.followId = followId;
 	}
 
-	public Integer getFans_id() {
-		return fans_id;
+	public Integer getFansId() {
+		return fansId;
 	}
 
-	public void setFans_id(Integer fans_id) {
-		this.fans_id = fans_id;
+	public void setFansId(Integer fansId) {
+		this.fansId = fansId;
 	}
+
 
 }
  

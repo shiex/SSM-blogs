@@ -1,23 +1,28 @@
 package com.xbb.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class Article 
-{ 
- 
+public class Article implements Cloneable, Serializable
+{
 	public Integer id ; 
-	public String title ; 
+	public String title ;
+	public String titleShow;
 	public String content ;
-	public Date issue_time ; 
-	public Integer read_count ;
+	public Date issueTime ;
+	public Integer readCount ;
 	public Boolean original ; 
-	public Integer user_id ; 
-	public Integer programa_id ;
-	public String read_url;
+	public Integer userId ;
+	public Integer programaId ;
+	public String readUrl;
 	public String synopsis;
 	public Boolean stick;
 
+	public List<Comment> commentList; // 评论列表
 	public User user;		// 用户信息
+	public String programaName; // 分类名称
+	public Integer isCollect; // 是否收藏
 	public String imgUrls;	// 上传图片
 	public String pastTime ;	// 发布时间到现在的过去时间（分、时、天、月）
 
@@ -45,14 +50,6 @@ public class Article
 	{
 		return this.content;
 	}
-	public void setIssue_time(Date issue_time)
-	{
-		this.issue_time=issue_time;
-	}
-	public Date getIssue_time()
-	{
-		return this.issue_time;
-	}
 	public void setOriginal(Boolean original)
 	{
 		this.original=original;
@@ -61,57 +58,62 @@ public class Article
 	{
 		return this.original;
 	}
-	public void setUser_id(Integer user_id)
-	{
-		this.user_id=user_id;
-	}
-	public Integer getUser_id()
-	{
-		return this.user_id;
-	}
-	public void setPrograma_id(Integer programa_id)
-	{
-		this.programa_id=programa_id;
-	}
-	public Integer getPrograma_id()
-	{
-		return this.programa_id;
-	}
-
 	public Boolean getStick() {
 		return stick;
 	}
-
 	public void setStick(Boolean stick) {
 		this.stick = stick;
 	}
-
 	public String getSynopsis() {
 		return synopsis;
 	}
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
 	}
+
+	public Date getIssueTime() {
+		return issueTime;
+	}
+
+	public void setIssueTime(Date issueTime) {
+		this.issueTime = issueTime;
+	}
+
+	public Integer getReadCount() {
+		return readCount;
+	}
+
+	public void setReadCount(Integer readCount) {
+		this.readCount = readCount;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Integer getProgramaId() {
+		return programaId;
+	}
+
+	public void setProgramaId(Integer programaId) {
+		this.programaId = programaId;
+	}
+
+	public String getReadUrl() {
+		return readUrl;
+	}
+
+	public void setReadUrl(String readUrl) {
+		this.readUrl = readUrl;
+	}
+
 	public User getUser() {
 		return user;
 	}
-
-	public Integer getRead_count() {
-		return read_count;
-	}
-
-	public void setRead_count(Integer read_count) {
-		this.read_count = read_count;
-	}
-
-	public String getRead_url() {
-		return read_url;
-	}
-
-	public void setRead_url(String read_url) {
-		this.read_url = read_url;
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -121,14 +123,53 @@ public class Article
 	public void setImgUrls(String imgUrls) {
 		this.imgUrls = imgUrls;
 	}
-
 	public String getPastTime() {
 		return pastTime;
 	}
-
 	public void setPastTime(String pastTime) {
 		this.pastTime = pastTime;
 	}
+	public String getProgramaName() {
+		return programaName;
+	}
+	public void setProgramaName(String programaName) {
+		this.programaName = programaName;
+	}
 
+	public Integer getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(Integer isCollect) {
+		this.isCollect = isCollect;
+	}
+
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+
+	public String getTitleShow() {
+		return titleShow;
+	}
+
+	public void setTitleShow(String titleShow) {
+		this.titleShow = titleShow;
+	}
+
+	@Override
+	public Object clone() {
+		Article article = null;
+		try{
+			article = (Article) super.clone();
+		}catch (CloneNotSupportedException e){
+			e.printStackTrace();
+		}
+		return article;
+	}
 }
+
  

@@ -31,7 +31,8 @@
     </context:component-scan>
 
     <!--    引入数据库配置文件   -->
-    <context:property-placeholder location="classpath:db.properties"/>
+    <context:property-placeholder location="classpath:*.properties"/>
+
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driver}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
@@ -56,7 +57,7 @@
             <!--    mybatis的配置在这里填写     -->
             <bean class="org.apache.ibatis.session.Configuration">
                 <!--    转换驼峰命名  -->
-                <!--<property name="mapUnderscoreToCamelCase" value="true"/>-->
+                <property name="mapUnderscoreToCamelCase" value="true"/>
             </bean>
         </property>
         <!-- 插件配置 -->

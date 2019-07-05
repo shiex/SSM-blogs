@@ -122,7 +122,7 @@
             alert('请输入密码');
             return;
         }
-        Af.rest("/login/verify", req, function (data) {
+        Af.rest("/login.do", req, function (data) {
             location.href = 'index.html';
         });
     }

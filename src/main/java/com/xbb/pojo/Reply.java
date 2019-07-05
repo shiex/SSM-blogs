@@ -6,80 +6,38 @@ public class Reply
 { 
  
 	public Integer id ; 
-	public Integer comment_id ;
-	public Integer user_id;
+	public Integer commentId ;
+	public Integer userId;
 	public String username;
-	public String head_portrait;
-	public Integer by_user_id ;
-	public String by_username ;	// 被回复者姓名
+	public String headPhoto;
+	public Integer byUserId ;
+	public String byUsername ;	// 被回复者姓名
 	public String content ;
-	public Date reply_time ;
+	public Date replyTime ;
 	public User user;
 
-
-	public void setId(Integer id)
-	{
-		this.id=id;
-	}
-	public Integer getId()
-	{
-		return this.id;
-	}
-	public void setComment_id(Integer comment_id)
-	{
-		this.comment_id=comment_id;
-	}
-	public Integer getComment_id()
-	{
-		return this.comment_id;
-	}
-	public void setBy_username(String by_username)
-	{
-		this.by_username=by_username;
-	}
-	public void setContent(String content)
-	{
-		this.content=content;
-	}
-	public String getContent()
-	{
-		return this.content;
+	public Integer getId() {
+		return id;
 	}
 
-	public Integer getBy_user_id() {
-		return by_user_id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setBy_user_id(Integer by_user_id) {
-		this.by_user_id = by_user_id;
+	public Integer getCommentId() {
+		return commentId;
 	}
 
-	public String getBy_username() {
-		return by_username;
+	public void setCommentId(Integer commentId) {
+		this.commentId = commentId;
 	}
 
-	public Integer getUser_id() {
-		return user_id;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
-	}
-
-	public Date getReply_time() {
-		return reply_time;
-	}
-
-	public void setReply_time(Date reply_time) {
-		this.reply_time = reply_time;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -90,12 +48,52 @@ public class Reply
 		this.username = username;
 	}
 
-	public String getHead_portrait() {
-		return head_portrait;
+	public String getHeadPhoto() {
+		return headPhoto;
 	}
 
-	public void setHead_portrait(String head_portrait) {
-		this.head_portrait = head_portrait;
+	public void setHeadPhoto(String headPhoto) {
+		this.headPhoto = headPhoto;
+	}
+
+	public Integer getByUserId() {
+		return byUserId;
+	}
+
+	public void setByUserId(Integer byUserId) {
+		this.byUserId = byUserId;
+	}
+
+	public String getByUsername() {
+		return byUsername;
+	}
+
+	public void setByUsername(String byUsername) {
+		this.byUsername = byUsername;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(Date replyTime) {
+		this.replyTime = replyTime;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
  

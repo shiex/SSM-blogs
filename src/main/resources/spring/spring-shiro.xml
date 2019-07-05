@@ -103,22 +103,19 @@
 
         <property name="filterChainDefinitions">
         <value>
+            /login.out = logout
             /static/** = anon
             /kindeditor/** = anon
             /layui/** = anon
             /index.html = anon
-            /login.html = anon
-            /login/** = anon
-            /register.html = anon
-            /register/** = anon
+            /login.* = anon
+            /register.* = anon
             /user.jsx = anon
-            /article/list/** = anon
+            /p/** = anon
             /article/read/** = anon
-            /userPage/** = anon
+            /u/index/** = anon
             /article/find/** = anon
-            /ax/** = anon
-            /notice/read.do = anon
-            /login.out = logout
+            /leave/** = anon
             /** = authc
         </value>
         </property>

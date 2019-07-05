@@ -97,7 +97,7 @@
             </div>
             <div id="input">
                 <img src="/static/img/passwrod.png" />
-                <input placeholder="再次输入密码" class="password2"/>
+                <input placeholder="再次输入密码" type="password" class="password2"/>
             </div>
             <div id="login" style="margin-top: 10px;">
                 <button onclick="M.register()"> 注册 </button>
@@ -127,7 +127,7 @@
             alert('两次密码输入不一致!');
             return;
         }
-        Af.rest("/register/verify", req, function (data) {
+        Af.rest("/register.do", req, function (data) {
             alert('注册成功!');
             location.href = '/login.html';
         });

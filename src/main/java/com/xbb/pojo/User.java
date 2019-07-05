@@ -1,72 +1,69 @@
 package com.xbb.pojo;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class User implements Serializable {
- 
-	public Integer id ; 
-	public String username ; 
-	public String password ; 
-	public String head_portrait ; 
-	public String imgs_file_url ;
-	public String cellphone ;
-	public String mailbox ; 
-	public Integer vip_id ; 
-	public Date register_time ; 
-	public Short original_count ;
-	public Integer follow_count;
-	public Integer fans_count ;
-	public Integer visit_count;
-	public String theme_photo;
-	public String data_photo;
+public class User implements Cloneable {
+
+	public Integer id;
+	public String username;
+	public String password;
+	public String headPhoto;
+	public String imgFileRoot;
+	public String cellphone;
+	public String mailbox;
+	public Integer vipId;
+	public Date registerTime;
+	public Short originalCount;
+	public Integer followCount;
+	public Integer fansCount;
+	public Integer visitCount;
 	public String signature;
 	public String speciality;
 	public String pas;
 	public Boolean sex;
 
-	public List<Article> articles;
+	List<Article> articleList;
+	public Integer isAttention; // 是否关注
 
-	public void setId(Integer id)
-	{
-		this.id=id;
-	}
-	public Integer getId()
-	{
-		return this.id;
-	}
-	public void setUsername(String username)
-	{
-		this.username=username;
-	}
-	public String getUsername()
-	{
-		return this.username;
-	}
-	public void setPassword(String password)
-	{
-		this.password=password;
-	}
-	public String getPassword()
-	{
-		return this.password;
-	}
-	public void setHead_portrait(String head_portrait)
-	{
-		this.head_portrait=head_portrait;
-	}
-	public String getHead_portrait()
-	{
-		return this.head_portrait;
+	public Integer getId() {
+		return id;
 	}
 
-	public String getImgs_file_url() {
-		return imgs_file_url;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setImgs_file_url(String imgs_file_url) {
-		this.imgs_file_url = imgs_file_url;
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getHeadPhoto() {
+		return headPhoto;
+	}
+
+	public void setHeadPhoto(String headPhoto) {
+		this.headPhoto = headPhoto;
+	}
+
+	public String getImgFileRoot() {
+		return imgFileRoot;
+	}
+
+	public void setImgFileRoot(String imgFileRoot) {
+		this.imgFileRoot = imgFileRoot;
 	}
 
 	public String getCellphone() {
@@ -77,37 +74,60 @@ public class User implements Serializable {
 		this.cellphone = cellphone;
 	}
 
-	public void setMailbox(String mailbox)
-	{
-		this.mailbox=mailbox;
-	}
-	public String getMailbox()
-	{
-		return this.mailbox;
-	}
-	public void setVip_id(Integer vip_id)
-	{
-		this.vip_id=vip_id;
-	}
-	public Integer getVip_id()
-	{
-		return this.vip_id;
-	}
-	public void setRegister_time(Date register_time)
-	{
-		this.register_time=register_time;
-	}
-	public Date getRegister_time()
-	{
-		return this.register_time;
+	public String getMailbox() {
+		return mailbox;
 	}
 
-	public Integer getVisit_count() {
-		return visit_count;
+	public void setMailbox(String mailbox) {
+		this.mailbox = mailbox;
 	}
 
-	public String getTheme_photo() {
-		return theme_photo;
+	public Integer getVipId() {
+		return vipId;
+	}
+
+	public void setVipId(Integer vipId) {
+		this.vipId = vipId;
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public Short getOriginalCount() {
+		return originalCount;
+	}
+
+	public void setOriginalCount(Short originalCount) {
+		this.originalCount = originalCount;
+	}
+
+	public Integer getFollowCount() {
+		return followCount;
+	}
+
+	public void setFollowCount(Integer followCount) {
+		this.followCount = followCount;
+	}
+
+	public Integer getFansCount() {
+		return fansCount;
+	}
+
+	public void setFansCount(Integer fansCount) {
+		this.fansCount = fansCount;
+	}
+
+	public Integer getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(Integer visitCount) {
+		this.visitCount = visitCount;
 	}
 
 	public String getSignature() {
@@ -116,62 +136,6 @@ public class User implements Serializable {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
-	}
-
-	public void setTheme_photo(String theme_photo) {
-		this.theme_photo = theme_photo;
-	}
-
-	public String getData_photo() {
-		return data_photo;
-	}
-
-	public void setData_photo(String data_photo) {
-		this.data_photo = data_photo;
-	}
-
-	public void setVisit_count(Integer visit_count) {
-		this.visit_count = visit_count;
-	}
-
-	public Short getOriginal_count() {
-		return original_count;
-	}
-
-	public void setOriginal_count(Short original_count) {
-		this.original_count = original_count;
-	}
-
-	public Integer getFollow_count() {
-		return follow_count;
-	}
-
-	public void setFollow_count(Integer follow_count) {
-		this.follow_count = follow_count;
-	}
-
-	public Integer getFans_count() {
-		return fans_count;
-	}
-
-	public void setFans_count(Integer fans_count) {
-		this.fans_count = fans_count;
-	}
-
-	public Boolean getSex() {
-		return sex;
-	}
-
-	public void setSex(Boolean sex) {
-		this.sex = sex;
-	}
-
-	public List<Article> getArticles() {
-		return articles;
-	}
-
-	public void setArticles(List<Article> articles) {
-		this.articles = articles;
 	}
 
 	public String getSpeciality() {
@@ -189,5 +153,30 @@ public class User implements Serializable {
 	public void setPas(String pas) {
 		this.pas = pas;
 	}
+
+	public Boolean getSex() {
+		return sex;
+	}
+
+	public void setSex(Boolean sex) {
+		this.sex = sex;
+	}
+
+	public List<Article> getArticleList() {
+		return articleList;
+	}
+
+	public void setArticleList(List<Article> articleList) {
+		this.articleList = articleList;
+	}
+
+	public Integer getIsAttention() {
+		return isAttention;
+	}
+
+	public void setIsAttention(Integer isAttention) {
+		this.isAttention = isAttention;
+	}
+
 }
  

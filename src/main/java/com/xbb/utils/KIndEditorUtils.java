@@ -23,40 +23,37 @@ public class KIndEditorUtils {
     {
         StringBuffer countText = new StringBuffer();
 
-        int count = 0;  // 长度计数
         String text = "";
         String strText = Content.replace("\n", " "); // 清空所有换行符
         String[] imgs = strText.split(">");
 
         for(String img : imgs)
         {
-            if(!img.startsWith("<"))
-            {
+            if(!img.startsWith("<")) {
                 int p1 = img.lastIndexOf('<'); // 文本内容长度
-                if(p1 >= 0)
-                {
-                    count += p1;
+                if(p1 >= 0) {
                     text = img.substring(0, p1);// 截取出文本内容
                 }
-                else
-                {
-                    count += img.length();
+                else {
                     text = img;
                 }
 
                 countText.append(text);
-                if(cutOutSize != 0)
-                {
-                    if(count >= cutOutSize)
-                    {
-                        text = countText.substring(0, cutOutSize);
-                        return text;
+                if(cutOutSize > 0) {
+                    if(text.length() > cutOutSize) {
+                        return countText.substring(0, cutOutSize);
                     }
                 }
             }
         }
         return countText.toString();
     }
+
+    // 删除已上传并未提交的多余图片
+        /*String imgUrls = article.getImgUrls();
+        List<String> upload = KIndEditorUtils.getImgUrls(article.getContent(), StatusCode.CONTEXT_PATH);
+        List<String> iuuse = KIndEditorUtils.getImgUrls(imgUrls, StatusCode.CONTEXT_PATH);
+        KIndEditorUtils.removeImg(upload, iuuse, StatusCode.WEB_FILE_ROOT);*/
 
     /**
      * @description: 从发布内容中提取图片路径
