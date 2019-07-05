@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    绑定Mapper接口   -->
+<mapper namespace="com.xbb.mapper.LeaveMapper">
+
+    <insert id="add" parameterType="com.xbb.pojo.Leave" useGeneratedKeys="true" keyProperty="id">
+        insert into `leave` (`user_id`,`content`,`leave_time`)
+        values (#{userId},#{content},#{leaveTime})
+    </insert>
+
+    <select id="queryLeaveAll" resultType="com.xbb.pojo.Leave">
+        select t1.id,t1.content,t1.leave_time,t2.username,t2.head_photo
+        from `leave` t1, `user` t2
+        where t1.id > #{id} AND t1.user_id = t2.id
+        order by id asc limit 30
+    </select>
+
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    绑定Mapper接口   -->
+<mapper namespace="com.xbb.mapper.ArticleMapper">
+
+    <resultMap id="articleMap" type="com.xbb.pojo.Article">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="titleShow" column="title_show"/>
+        <result property="userId" column="user_id"/>
+        <result property="readCount" column="read_count"/>
+        <result property="issueTime" column="issue_time"/>
+        <result property="synopsis" column="synopsis"/>
+        <result property="original" column="original"/>
+        <result property="content" column="content"/>
+        <result property="programaName" column="name"/>
+        <result property="isCollect" column="is_collect"/>
+    </resultMap>
+
+    <resultMap id="articleUserMap" extends="articleMap" type="com.xbb.pojo.Article">
+        <association property="user" javaType="com.xbb.pojo.User">
+            <id property="id" column="uid"/>
+            <result property="headPhoto" column="head_photo"/>
+            <result property="username" column="username"/>
+            <result property="originalCount" column="original_count"/>
+            <result property="fansCount" column="fans_count"/>
+            <result property="sex" column="sex"/>
+            <result property="followCount" column="follow_count"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="articleJoinTable" extends="articleMap" type="com.xbb.pojo.Article">
+        <collection property="commentList" ofType="com.xbb.pojo.Comment">
+            <id property="id" column="cid"/>
+            <result property="comment" column="comment"/>
+            <result property="commentTime" column="comment_time"/>
+            <result property="replyCount" column="reply_count"/>
+            <result property="appluadCount" column="appluad_count"/>
+            <result property="status" column="status"/>
+            <result property="user.id" column="cid"/>
+            <result property="user.headPhoto" column="head_photo"/>
+            <result property="user.username" column="username"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryAll" resultMap="articleUserMap">
+        select
+        t1.id, t1.title_show, t1.read_count, t1.issue_time, t1.synopsis,
+        t2.id as uid, t2.head_photo, t2.username,
+        t3.name
+        from `article` t1,`user` t2, `programa` t3
+        where t1.user_id = t2.id
+        and t3.id = t1.programa_id limit 200
+    </select>
+
+    <select id="queryJoinTable" resultMap="articleJoinTable">
+        select
+        t1.id ,t1.user_id,t1.title,t1.content,t1.issue_time,t1.read_count,t1.original,
+        t2.id as cid,t2.comment,t2.comment_time,t2.reply_count,t2.appluad_count,
+        t3.id as uid,t3.username,t3.head_photo,
+        t4.status,t5.user_id as is_collect
+        from `article` t1
+        left join `comment` t2 on t1.id = t2.article_id
+        left join `user` t3 on t3.`id` = t2.user_id
+        left join `appluad` t4 on t3.id = t4.comment_id and t4.user_id = #{userId}
+        left join `collect` t5 on t5.`article_id` = t1.id and t5.user_id = #{userId}
+        where t1.id = #{articleId}
+    </select>
+
+    <select id="queryAllUserIssue" resultType="com.xbb.pojo.Article">
+        select id,title_show,read_count,issue_time,original,stick from `article`
+        where user_id = #{userId}
+    </select>
+
+    <select id="query" resultType="com.xbb.pojo.Article">
+        select id,user_id,title,content,programa_id from article
+        where id = #{id}
+    </select>
+
+    <select id="findFullText" resultMap="articleUserMap">
+        SELECT
+        t1.id, t1.title_show, t1.read_count, t1.issue_time, t1.synopsis,t1.original,t1.content,
+        t2.id as uid,t2.head_photo, t2.username, t2.original_count, t2.fans_count, t2.sex, t2.follow_count
+        FROM `article` t1,`user` t2
+        where t1.title like concat(concat('%',#{antistop}),'%')
+        and t1.user_id = t2.id
+    </select>
+
+    <select id="findUserIssue" resultType="com.xbb.pojo.Article">
+        select id,title_show,content,issue_time,stick,read_count from article
+        where title like concat(concat('%',#{antistop}),'%')
+        and user_id = #{userId}
+    </select>
+
+    <insert id="add" parameterType="com.xbb.pojo.Article" useGeneratedKeys="true" keyProperty="id">
+        insert into `article`(title,content,user_id,synopsis,programa_id,original,issue_time,title_show)
+        values (#{title},#{content},#{userId},#{synopsis},#{programaId},#{original},#{issueTime},#{titleShow})
+    </insert>
+
+    <update id="readCountPlus">
+        update article set read_count = read_count+1 where id = #{articleid}
+    </update>
+
+    <update id="update" parameterType="com.xbb.pojo.Article">
+        update article
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null and title != ''">title=#{title},</if>
+            <if test="titleShow != null and titleShow != ''">title_show=#{titleShow},</if>
+            <if test="content != null and content != ''">content=#{content},</if>
+            <if test="synopsis != null and synopsis != ''">synopsis=#{synopsis},</if>
+            <if test="issue_time != null">issue_time=#{issueTime},</if>
+            <if test="programa_id != 0">programa_id=#{programaId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateStick" parameterType="com.xbb.pojo.Article">
+        update `article` set stick=#{stick} where id = #{id}
+    </update>
+
+    <delete id="removeById">
+        delete from article where id = #{articleId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    绑定Mapper接口   -->
+<mapper namespace="com.xbb.mapper.UserMapper">
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into `user` (`username`,`password`,`register_time`)
+        values (#{username},#{password},#{registerTime})
+    </insert>
+
+    <resultMap id="userMap" type="com.xbb.pojo.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="sex" column="sex"/>
+        <result property="headPhoto" column="head_photo"/>
+        <result property="originalCount" column="original_count"/>
+        <result property="fansCount" column="fans_count"/>
+        <result property="followCount" column="follow_count"/>
+        <result property="visitCount" column="visit_count"/>
+        <result property="signature" column="signature"/>
+        <result property="speciality" column="speciality"/>
+    </resultMap>
+
+    <resultMap id="userArticlesMap" extends="userMap" type="com.xbb.pojo.User">
+        <collection property="articleList" ofType="com.xbb.pojo.Article">
+            <id property="id" column="aid"/>
+            <result property="titleShow" column="title_show"/>
+            <result property="readCount" column="read_count"/>
+            <result property="issueTime" column="issue_time"/>
+            <result property="synopsis" column="synopsis"/>
+            <result property="stick" column="stick"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryUserArticles" resultMap="userArticlesMap">
+        select
+        t1.id,t1.username,t1.sex,t1.head_photo,t1.original_count,t1.fans_count,
+        t1.follow_count,t1.visit_count,t1.signature,t1.speciality,
+        t2.id as aid, t2.title_show,t2.read_count,t2.issue_time,t2.synopsis,t2.stick
+        from `user` t1
+        left join `article` t2 on t1.id = t2.`user_id`
+        where t1.id = #{userId}
+    </select>
+
+    <select id="queryHotArticle" resultMap="userArticlesMap">
+        SELECT
+        t1.id,t1.username,t1.head_photo,t1.original_count,t1.fans_count,t1.follow_count,
+        t2.id as aid,t2.title_show,t2.read_count
+        FROM `user` t1,`article` t2
+        where t1.id = #{userId} and t1.id = t2.user_id
+        order by t2.read_count desc limit 5
+    </select>
+
+    <select id="query" resultType="com.xbb.pojo.User">
+        select * from `user`
+        <where>
+            <if test="userId != 0">
+                id = #{userId}
+            </if>
+            <if test="userName != null">
+                username = #{userName}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="com.xbb.pojo.User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username != null and username != ''">username=#{username},</if>
+            <if test="headPhoto != null and headPhoto != ''">head_photo=#{headPhoto},</if>
+            <if test="cellphone != null and cellphone != ''">cellphone=#{cellphone},</if>
+            <if test="mailbox != null and mailbox != ''">mailbox=#{mailbox},</if>
+            <if test="sex != null">sex=#{sex},</if>
+            <if test="signature != null and signature != ''">signature=#{signature},</if>
+            <if test="speciality != null and speciality != ''">speciality=#{speciality},</if>
+        </trim>
+        where id = #{userId}
+    </update>
+
+    <update id="FansConutPuls">
+        update `user` set fans_count = fans_count+1 where id = #{userId}
+    </update>
+
+    <update id="FansConutMinus">
+        update `user` set fans_count = fans_count-1 where id = #{userId}
+    </update>
+
+    <update id="originalCountPlus">
+        update `user` set original_count = original_count+1 where id = #{userId}
+    </update>
+
+    <update id="originalCountMinus">
+        update `user` set original_count = original_count-1 where id = #{userId}
+    </update>
+
+    <update id="updateImgFileRoot">
+        update `user` set img_file_root = #{imgFileRoot}
+        where id = #{userId}
+    </update>
+</mapper>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    绑定Mapper接口   -->
+<mapper namespace="com.xbb.mapper.ReplyMapper">
+
+    <insert id="add">
+        insert into reply (`comment_id`,`user_id`,`by_user_id`,`by_username`,`reply_time`,`content`)
+        values (#{commentId},#{userId},#{byUserId},#{byUsername},#{replyTime},#{content})
+    </insert>
+
+    <resultMap id="resultReplyMap" type="com.xbb.pojo.Reply">
+        <id property="id" column="id"/>
+        <result property="commentId" column="comment_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="headPhoto" column="head_photo"/>
+        <result property="byUserId" column="by_user_id"/>
+        <result property="byUsername" column="by_username"/>
+        <result property="content" column="content"/>
+        <result property="replyTime" column="reply_time"/>
+    </resultMap>
+    <select id="queryAll" resultMap="resultReplyMap">
+        select t1.id,t1.comment_id,t1.user_id,t1.by_user_id,t1.by_username,t1.reply_time,t1.content,
+        t2.username,t2.head_photo
+        from `reply` t1, `user` t2
+        where t1.comment_id = #{commentId} and t1.user_id = t2.id
+        order by id desc
+    </select>
+
+</mapper>

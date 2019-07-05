@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    绑定Mapper接口   -->
+<mapper namespace="com.xbb.mapper.CommentMapper">
+
+    <insert id="add" parameterType="com.xbb.pojo.Comment" useGeneratedKeys="true" keyProperty="id">
+        insert into comment(`article_id`,`user_id`,`comment`,`comment_time`)
+        values(#{articleId},#{userId},#{comment},#{commentTime})
+    </insert>
+
+    <update id="replyCountPlus">
+        update comment set reply_count = reply_count+1 where id = #{commentId}
+    </update>
+    <update id="replyCountMinus">
+        update comment set reply_count = reply_count-1 where id = #{commentId}
+    </update>
+
+    <update id="appluadCountPlus">
+        update comment set appluad_count = appluad_count+1 where id = #{commentId}
+    </update>
+    <update id="appluadCountMinus">
+        update comment set appluad_count = appluad_count-1 where id = #{commentId}
+    </update>
+
+</mapper>
