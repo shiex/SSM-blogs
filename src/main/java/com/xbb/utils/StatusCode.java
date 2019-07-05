@@ -13,9 +13,9 @@ public class StatusCode {
 
     public static String WEB_FILE_ROOT; // 项目存储路径
 
-    public final static int SUCCEED = 0; // 请求成功
+    public final static int SUCCEED = 0; // 成功
 
-    public final static int FAILER = -1; // 请求失败
+    public final static int FAILER = -1; // 出错
 
     public final static String ERROR = "error"; // 应答状态码
 

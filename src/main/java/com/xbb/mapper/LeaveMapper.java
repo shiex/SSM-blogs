@@ -13,8 +13,17 @@ import java.util.List;
  */
 public interface LeaveMapper {
 
+    /**
+     * @description: 添加留言
+     * @param leave
+     * @return: void
+     */
     void add(Leave leave);
 
+    /**
+     * @description: 根据留言ID加载后30条留言
+     * @param leaveId
+     * @return: java.util.List<com.xbb.pojo.Leave>
+     */
     List<Leave> queryLeaveAll(int leaveId);
-
 }

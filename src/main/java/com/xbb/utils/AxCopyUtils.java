@@ -16,7 +16,7 @@ import java.util.List;
 public class AxCopyUtils {
 
     /**
-     * @description: 序列化深拷贝，泛型须实现Serializable接口,耗时：117ms
+     * @description: 深拷贝，泛型须实现Serializable接口,耗时：117ms
      * @param t
      * @return: T
      */
@@ -37,7 +37,7 @@ public class AxCopyUtils {
     }
 
     /**
-     * @description: clone浅拷贝，泛型类须实现Cloneable接口并重写clone方法，耗时：42ms
+     * @description: 浅拷贝，泛型类须实现Cloneable接口并重写clone方法，耗时：42ms
      * @param list
      * @return: java.util.List<T>
      */

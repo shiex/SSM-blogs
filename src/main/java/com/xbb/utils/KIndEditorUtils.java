@@ -49,12 +49,6 @@ public class KIndEditorUtils {
         return countText.toString();
     }
 
-    // 删除已上传并未提交的多余图片
-        /*String imgUrls = article.getImgUrls();
-        List<String> upload = KIndEditorUtils.getImgUrls(article.getContent(), StatusCode.CONTEXT_PATH);
-        List<String> iuuse = KIndEditorUtils.getImgUrls(imgUrls, StatusCode.CONTEXT_PATH);
-        KIndEditorUtils.removeImg(upload, iuuse, StatusCode.WEB_FILE_ROOT);*/
-
     /**
      * @description: 从发布内容中提取图片路径
      * @param content

@@ -13,7 +13,17 @@ import java.util.List;
  */
 public interface ReplyMapper {
 
+    /**
+     * @description: 添加回复
+     * @param reply
+     * @return: void
+     */
     void add(Reply reply);
 
+    /**
+     * @description: 根据评论ID查询回复列表
+     * @param commentId
+     * @return: java.util.List<com.xbb.pojo.Reply>
+     */
     List<Reply> queryAll(int commentId);
 }

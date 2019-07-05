@@ -14,11 +14,28 @@ import java.util.List;
  */
 public interface CollectMapper {
 
+    /**
+     * @description: 添加收藏
+     * @param userId
+     * @param articleId
+     * @return: void
+     */
     void add(@Param("userId") int userId,
              @Param("articleId") int articleId);
 
+    /**
+     * @description: 删除收藏
+     * @param userId
+     * @param articleId
+     * @return: void
+     */
     void remove(@Param("userId") int userId,
                 @Param("articleId") int articleId);
 
+    /**
+     * @description: 查询收藏列表
+     * @param userId
+     * @return: java.util.List<com.xbb.pojo.Article>
+     */
     List<Article> queryCollectAll(int userId);
 }

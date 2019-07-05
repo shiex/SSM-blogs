@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd ">
+
+    <!--
+        1. 配置 SecurityManager
+    -->
+    <bean id ="securityManager" class ="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <!--<property name="sessionManager" ref="native"/>-->
+        <property name ="authenticator" ref ="authenticator"/>
+        <property name="realm" ref="shiroRealm"/>
+        <!--<property name="realms">
+            <list>
+                <ref bean="shiroRealm"/>
+                <ref bean="secondRealm"/>
+            </list>
+        </property>-->
+    </bean>
+
+    <!--
+        2.配置CacheManager 缓存
+        2.1 需要加入 ehcache 的 jar 包及配置文件
+    -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+    <!--
+        认证策略 AuthenticationStrategy接口的默认实现
+        FirstSuccessfulStrategy:只有一个 Realm 验证成功即可,且返回第一个 Realm 身份验证成功的认证信息,其它的忽略
+        AtLeastOneSuccessfulStrategy:只有一个 Realm 验证成功即可,和FirstSuccessfulStrategy不同,将返回所有 Realm 身份认证成功的认证信息
+        AllSuccessfulStrategy:所有Realm 验证成功才算成功,且返回所有Realm 身份验证成功的认证信息,如果有一个失败则失败
+    -->
+    <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
+        </property>
+    </bean>
+
+    <!--
+        3.配置 Realm
+        3.1 直接实现了Realm接口的bean
+    -->
+    <bean id="shiroRealm" class="com.xbb.shiroRealm.ShiroRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"></property>
+                <property name="hashIterations" value="1024"></property>
+            </bean>
+        </property>
+    </bean>
+   <!-- <bean id="secondRealm" class="com.xbb.shiroRealm.SecondRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="SHA1"></property>
+                <property name="hashIterations" value="1024"></property>
+            </bean>
+        </property>
+    </bean>-->
+
+    <!-- 4.配置LifecycleBeanPostProcessor 可以自定的来调用配置在Spring IOC容器中 shiro bean 的生命周期方法 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 5.启用 IOC 容器中使用shiro 的注解,但必须在配置了lifecycleBeanPostProcessor之后才可以使用 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!--
+        6.配置ShiroFilter
+        6.1 id 必须和 web.xml 文件中配置的DelegatingFilterProxy 的 <filter-name>一致
+        org.apache.shiro.spring.web.ShiroFilterFactoryBean
+    -->
+    <bean id="logoutFilter" class="com.xbb.shiroRealm.ShiroLogoutFilter">
+        <property name="redirectUrl" value="/index.html"/>
+    </bean>
+    <bean id="ajaxFilter" class="com.xbb.shiroRealm.ShiroAjaxFilter"/>
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="successUrl" value="/index.html"/> <!-- 登陆成功后的页面 -->
+        <property name="unauthorizedUrl" value="/login.html"/> <!-- 认证失败跳转页面 -->
+
+        <!--<property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>-->
+        <property name="filters">
+            <map>
+                <entry key="logout" value-ref="logoutFilter"></entry>
+                <entry key="authc" value-ref="ajaxFilter"></entry>
+            </map>
+        </property>
+
+        <property name="filterChainDefinitions">
+        <value>
+            /static/** = anon
+            /kindeditor/** = anon
+            /layui/** = anon
+            /index.html = anon
+            /login.html = anon
+            /login/** = anon
+            /register.html = anon
+            /register/** = anon
+            /user.jsx = anon
+            /article/list/** = anon
+            /article/read/** = anon
+            /userPage/** = anon
+            /article/find/** = anon
+            /ax/** = anon
+            /notice/read.do = anon
+            /login.out = logout
+            /** = authc
+        </value>
+        </property>
+    </bean>
+
+    <!--配置一个bean,该bean 实际上是一个Map, 通过实例工厂方法的方式-->
+    <!--<bean id="filterChainDefinitionMap"
+          factory-bean="filterChainDefinitionMapBuilder"
+          factory-method="builFilterChainDefinitionMap"></bean>
+    <bean id="filterChainDefinitionMapBuilder"
+    class="com.xbb.shiroRealm.FilterChainDefinitionMapBuilder"></bean>-->
+
+</beans>
