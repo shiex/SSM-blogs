@@ -428,7 +428,7 @@
                     <img src="${user.headPhoto}" onclick="M.loadUserPage(${user.id})"/>
                 </div>
                 <div class="u-name"><a href="u/index/${user.id}.html">${user.username}</a></div>
-                <#if user.isAttention ??>
+                <#if article.isAttention ??>
                         <div class="gz" isFollow="1" onclick="M.follow(this)">已关注</div>
                     <#else>
                         <div class="gz" isFollow="0" onclick="M.follow(this)">关注</div>

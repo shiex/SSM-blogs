@@ -17,13 +17,13 @@
     </delete>
 
     <select id="queryFollowAll" resultType="com.xbb.pojo.User">
-        select t2.id,t2.username,t2.head_portrait
+        select t2.id,t2.username,t2.head_photo
         from `attention` t1, `user` t2
         where t1.fans_id = #{fansId} and t2.id = follow_id
     </select>
 
     <select id="queryFansAll" resultType="com.xbb.pojo.User">
-        select t2.id,t2.username,t2.head_portrait
+        select t2.id,t2.username,t2.head_photo
         from `attention` t1, `user` t2
         where t1.follow_id = #{followId} and t2.id = fans_id
     </select>

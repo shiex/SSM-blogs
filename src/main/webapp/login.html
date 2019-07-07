@@ -126,5 +126,11 @@
             location.href = 'index.html';
         });
     }
+
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            M.login();
+        }
+    });
 </script>
 </html>

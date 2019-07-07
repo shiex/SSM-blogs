@@ -38,7 +38,7 @@ public class AttentionController {
     public Map addFollow(@RequestBody Attention attention, HttpSession session)
     {
         User u = (User) session.getAttribute(StatusCode.SESSION_USER);
-        if(attention.getId() == 0){
+        if(attention.getId() != 0){
             attention.setFansId(u.getId());
             attentionService.add(attention);
             userService.FansConutPuls(attention.getFollowId());

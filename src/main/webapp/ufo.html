@@ -98,7 +98,7 @@
 	{{each follows as follow}}
 	<div class="follow">
 		<div class="follow-img">
-			<img src="{{follow.head_portrait}}" onclick="M.loadUserPage('{{follow.id}}')"/>
+			<img src="{{follow.headPhoto}}" onclick="M.loadUserPage('{{follow.id}}')"/>
 		</div>
 		<label class="follow-name" onclick="M.loadUserPage('{{follow.id}}')"> {{follow.username}} </label>
 		<button onclick="M.follow(this, '{{follow.id}}')" class="follow-cancel" isFollow="1"> 取消关注</button>
@@ -126,7 +126,8 @@
 		}
 
 		var req = {};
-		req.follow_id = userId;
+		req.followId = userId;
+		req.id = $(e).attr('isFollow');
 		Af.rest("follow.add", req, function (data) {
 
 		}) ;

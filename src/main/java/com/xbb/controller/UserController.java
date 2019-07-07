@@ -99,19 +99,6 @@ public class UserController {
     }
 
     /**
-     * @description: 退出登录
-     * @param session
-     * @return: java.util.Map
-     */
-    /*@RequestMapping("/login.out")
-    @ResponseBody
-    public Map loginOut(HttpSession session){
-        Map<String , Object> restMap = RestMap.getRestMap();
-        session.removeAttribute(StatusCode.SESSION_USER);
-        return restMap;
-    }*/
-
-    /**
      * @description: 返回包含当前用户数据的js文件
      * @param session
      * @param resp
@@ -131,47 +118,6 @@ public class UserController {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain");
         resp.getWriter().write(strResp);
-    }
-
-    /**
-     * @description: 用户编辑资料
-     * @param user
-     * @param session
-     * @return: java.util.Map
-     */
-    @RequestMapping("/u/update.do")
-    @ResponseBody
-    public Map update(@RequestBody User user, HttpSession session){
-        User u = (User) session.getAttribute(StatusCode.SESSION_USER);
-        String imgUrl = u.getHeadPhoto();
-        if(!imgUrl.equals("static/img/ph.png")){
-            if(!user.getHeadPhoto().equals(imgUrl)){
-                File imgFile = new File(StatusCode.WEB_FILE_ROOT,imgUrl);
-                imgFile.delete();
-            }
-        }
-        userService.update(user);
-        Map<String , Object> restMap = RestMap.getRestMap();
-        restMap.put("data", user);
-        return restMap;
-    }
-
-    /**
-     * @description: 用户取消编辑资料
-     * @param imgUrl
-     * @return: java.util.Map
-     */
-    @RequestMapping("/u/updata.call")
-    @ResponseBody
-    public Map updataCall(@RequestBody String imgUrl){
-        Map<String , Object> restMap = RestMap.getRestMap();
-        // 删除已上传未提交图片
-        imgUrl = imgUrl.substring(1, imgUrl.length() - 1);
-        if(imgUrl.startsWith("static") && !imgUrl.equals("static/img/ph.png")){
-            File imgFile = new File(StatusCode.WEB_FILE_ROOT + imgUrl);
-            imgFile.delete();
-        }
-        return restMap;
     }
 
     /**
@@ -204,5 +150,60 @@ public class UserController {
         restMap.put("data", articleList);
         return restMap;
     }
+
+    /**
+     * @description: 用户编辑资料
+     * @param user
+     * @param session
+     * @return: java.util.Map
+     */
+    @RequestMapping("/u/update.do")
+    @ResponseBody
+    public Map update(@RequestBody User user, HttpSession session){
+        User u = (User) session.getAttribute(StatusCode.SESSION_USER);
+        String imgUrl = u.getHeadPhoto();
+        if(!imgUrl.equals("static/img/ph.png")){
+            if(!user.getHeadPhoto().equals(imgUrl)){
+                File imgFile = new File(StatusCode.WEB_FILE_ROOT,imgUrl);
+                imgFile.delete();
+            }
+        }
+        userService.update(user);
+        BlogsUtlis.setSessionUser(user, session); // 更新会话中的user状态
+        Map<String , Object> restMap = RestMap.getRestMap();
+        restMap.put("data", user);
+        return restMap;
+    }
+
+    /**
+     * @description: 用户取消编辑资料
+     * @param imgUrl
+     * @return: java.util.Map
+     */
+    @RequestMapping("/u/update.call")
+    @ResponseBody
+    public Map updataCall(@RequestBody String imgUrl){
+        Map<String , Object> restMap = RestMap.getRestMap();
+        // 删除已上传未提交图片
+        imgUrl = imgUrl.substring(1, imgUrl.length() - 1);
+        if(!imgUrl.equals("static/img/ph.png")){
+            File imgFile = new File(StatusCode.WEB_FILE_ROOT, imgUrl);
+            imgFile.delete();
+        }
+        return restMap;
+    }
+
+    /**
+     * @description: 退出登录
+     * @param session
+     * @return: java.util.Map
+     */
+    /*@RequestMapping("/login.out")
+    @ResponseBody
+    public Map loginOut(HttpSession session){
+        Map<String , Object> restMap = RestMap.getRestMap();
+        session.removeAttribute(StatusCode.SESSION_USER);
+        return restMap;
+    }*/
 
 }

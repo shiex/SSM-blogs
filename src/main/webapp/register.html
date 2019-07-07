@@ -132,5 +132,11 @@
             location.href = '/login.html';
         });
     }
+
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            M.register();
+        }
+    });
 </script>
 </html>

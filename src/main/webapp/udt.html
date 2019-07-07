@@ -175,7 +175,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">技术特长</label>
 			<div class="layui-input-block" style="width: 130px;">
-				<select class="ke" name="speciality">
+				<select class="ke" name="speciality" lay-verify="required">
 					<option value="Java">Java</option>
 					<option value="C++">C++</option>
 					<option value="C">C</option>
@@ -245,8 +245,8 @@
 				}else {
 					$(".dig [title=女]").prop('checked', true);
 				}
-				if(user.head_portrait != null && user.head_portrait != ''){
-					$('.layui-form .d-img').attr("src", user.head_portrait);
+				if(user.headPhoto != null && user.headPhoto != ''){
+					$('.layui-form .d-img').attr("src", user.headPhoto);
 				}else {
 					$('.layui-form .d-img').attr("src", "static/img/ph.png");
 				}
@@ -268,8 +268,8 @@
 		var dig = $(e).parent().parent().parent();
 		var imgUrl = $('.d-img', dig).attr('src');
 		if(imgUrl.length > 1){
-			if(imgUrl != user.head_portrait){
-				Af.rest("updata.call", imgUrl, function (data) {
+			if(imgUrl != user.headPhoto){
+				Af.rest("/u/update.call", imgUrl, function (data) {
 					$('.d-img', dig).attr('src', '');
 				});
 			}
@@ -288,8 +288,8 @@
 					return;
 				}
 				req.id = user.id; // 用户ID以及图片路径自行处理
-				req.head_portrait = $('.dig .d-img').attr('src');
-				Af.rest("user/updata", req, function (upUser) {
+				req.headPhoto = $('.dig .d-img').attr('src');
+				Af.rest("/u/update.do", req, function (upUser) {
 					this.user = upUser;  // 更新user数据
 					$('.top .top-username').text(upUser.username);
 					M.initUserData();

@@ -67,7 +67,7 @@ public class UploadFileController {
                 imgFile.mkdirs(); // 生成图片存储新目录
             }
 
-            File tmpFile = new File(imgFile, tmpFileName);
+            File tmpFile = new File(imgFile,tmpFileName);
             sbr.setLength(0);
             sbr.append(StatusCode.CONTEXT_PATH).append(imgFileRoot).append("/").append(tmpFileName);
             try{

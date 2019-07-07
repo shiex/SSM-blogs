@@ -5,10 +5,8 @@ import com.xbb.pojo.User;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * @author shiex-薛
@@ -39,12 +37,12 @@ public class BlogsUtlis {
     }
 
     public static void setTitleShow(Article article){
-        String title = article.getTitle();
-        int n = random.nextInt(30) + 50;
-        if(n < title.length()){
-            article.setTitleShow(title.substring(0, n));
+        String titleShow = article.getTitle();
+        if(titleShow.length() >= 60){
+            int n = random.nextInt(35) + 21;
+            titleShow = titleShow.substring(0, n) + "...";
         }
-        article.setTitleShow(title);
+        article.setTitleShow(titleShow);
     }
 
     /**
@@ -86,6 +84,7 @@ public class BlogsUtlis {
      * @return: java.util.List<com.xbb.pojo.Article>
      */
     public static List<Article> extractHot(List<Article> articles, int size){
+        if(articles.size() == 0) return new ArrayList<>();
         List<Article> articleList = AxCopyUtils.shallowCopy(articles);
         Collections.sort(articleList, new ArticleSort());
         if(size > articleList.size()) return articleList;
@@ -113,5 +112,22 @@ public class BlogsUtlis {
      */
     public static List<Article> extractHot(List<Article> articles,int fromIndex,int toIndex, int size){
         return extractHot(articles.subList(fromIndex, toIndex), size);
+    }
+
+    /**
+     * @description: 更新会话中User
+     * @param user
+     * @param session
+     * @return: void
+     */
+    public static void setSessionUser(User user, HttpSession session){
+        User u = (User) session.getAttribute(StatusCode.SESSION_USER);
+        if(user.getHeadPhoto() != null) u.setHeadPhoto(user.getHeadPhoto());
+        if(user.getUsername() != null) u.setUsername(user.getUsername());
+        if(user.getSex() != null) u.setSex(user.getSex());
+        if(user.getCellphone() != null) u.setCellphone(user.getCellphone());
+        if(user.getSignature() != null) u.setSignature(user.getSignature());
+        if(user.getSpeciality() != null) u.setSpeciality(user.getSpeciality());
+        session.setAttribute(StatusCode.SESSION_USER, u);
     }
 }

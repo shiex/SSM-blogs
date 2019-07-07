@@ -70,14 +70,14 @@
         update user
         <trim prefix="set" suffixOverrides=",">
             <if test="username != null and username != ''">username=#{username},</if>
-            <if test="headPhoto != null and headPhoto != ''">head_photo=#{headPhoto},</if>
-            <if test="cellphone != null and cellphone != ''">cellphone=#{cellphone},</if>
-            <if test="mailbox != null and mailbox != ''">mailbox=#{mailbox},</if>
+            <if test="headPhoto != null">head_photo=#{headPhoto},</if>
+            <if test="cellphone != null">cellphone=#{cellphone},</if>
+            <if test="mailbox != null">mailbox=#{mailbox},</if>
             <if test="sex != null">sex=#{sex},</if>
-            <if test="signature != null and signature != ''">signature=#{signature},</if>
-            <if test="speciality != null and speciality != ''">speciality=#{speciality},</if>
+            <if test="signature != null">signature=#{signature},</if>
+            <if test="speciality != null">speciality=#{speciality},</if>
         </trim>
-        where id = #{userId}
+        where id = #{id}
     </update>
 
     <update id="FansConutPuls">

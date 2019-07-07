@@ -23,6 +23,7 @@ public class Article implements Cloneable, Serializable
 	public User user;		// 用户信息
 	public String programaName; // 分类名称
 	public Integer isCollect; // 是否收藏
+	public Integer isAttention; // 是否关注
 	public String imgUrls;	// 上传图片
 	public String pastTime ;	// 发布时间到现在的过去时间（分、时、天、月）
 
@@ -158,6 +159,14 @@ public class Article implements Cloneable, Serializable
 
 	public void setTitleShow(String titleShow) {
 		this.titleShow = titleShow;
+	}
+
+	public Integer getIsAttention() {
+		return isAttention;
+	}
+
+	public void setIsAttention(Integer isAttention) {
+		this.isAttention = isAttention;
 	}
 
 	@Override

@@ -142,7 +142,7 @@
         </div>
         <div class="tmp-a">
             <div class="a"><a href="" class="read">查看博客</a></div>
-            <div class="a"><a href="u/in#uar.html">管理博客</a></div>
+            <div class="a"><a href="uin.html#uar.html">管理博客</a></div>
             <div class="a"><a href="article/issue.html">继续发布</a></div>
         </div>
     </div>
@@ -194,7 +194,7 @@
         if(req.title <= 0){
             layer.msg('标题不得为空');
             return;
-        } else if(req.title.length > 50) {
+        } else if(req.title.length > 100) {
             layer.msg('标题请控制在100个字以内哦');
             return;
         }else if(req.content.length <= 0){
@@ -248,7 +248,7 @@
         var e = $('.edit ');
         var edit = {};
         edit.id = $('.id', e).text();
-        edit.programaId = $('.programa_id', e).text();
+        edit.programaId = $('.programaId', e).text();
         edit.title = $('.title', e).text();
         edit.content = $('.content', e).html();
         $('.title').val(edit.title);
