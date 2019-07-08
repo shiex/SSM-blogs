@@ -42,7 +42,7 @@ public class ProgramaController {
      * @param model
      * @return: java.lang.String
      */
-    @RequestMapping("/")
+    @RequestMapping("/index.html")
     public String queryProgramaList(Model model)
     {
         List <Programa> programaList = programaService.queryAll(); // 博客分类列表
