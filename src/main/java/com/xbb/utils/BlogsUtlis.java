@@ -128,6 +128,7 @@ public class BlogsUtlis {
         if(user.getCellphone() != null) u.setCellphone(user.getCellphone());
         if(user.getSignature() != null) u.setSignature(user.getSignature());
         if(user.getSpeciality() != null) u.setSpeciality(user.getSpeciality());
+        if(user.getMailbox() != null) u.setMailbox(user.getMailbox());
         session.setAttribute(StatusCode.SESSION_USER, u);
     }
 }
