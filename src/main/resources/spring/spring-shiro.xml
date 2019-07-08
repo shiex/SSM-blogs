@@ -115,6 +115,7 @@
             /article/read/** = anon
             /u/index/** = anon
             /article/find/** = anon
+            /leave.html = anon
             /leave/** = anon
             /** = authc
         </value>
