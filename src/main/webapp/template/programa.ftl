@@ -380,7 +380,7 @@
     var P = {};
 
     P.loadUserPage = function (userId) {
-        location.href = "upage/" + userId + ".html";
+        location.href = "u/index/" + userId + ".html";
     }
 
     P.herfLo = function (id) {
@@ -396,10 +396,6 @@
                 var li = $(as[i]).parent().addClass('color');
             }
         }
-    }
-
-    P.loadUserPage = function (id) {
-        location.href = "userPage/" + id + ".html";
     }
 
     P.addTitleColor();
