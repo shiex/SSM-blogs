@@ -174,7 +174,7 @@
         resizeType:0,
         allowFileManager:true,
         fontSizeTable:['9px', '10px', '12px', '14px', '16px', '18px','20px', '24px','28px', '32px'],
-        newlineTag : 'br',
+        newlineTag : 'p',
         themeType : 'example1',
         afterUpload : function(imgUrl) {
             imgs += imgUrl;
@@ -186,6 +186,7 @@
     var M = {};
     M.Iuuse = function () {
 
+        alert(editor.text());
         var req = {};
         req.programaId = $('.ke').find('option:selected').val();
         req.title = $('.title').val();
